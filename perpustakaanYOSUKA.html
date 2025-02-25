@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Buku Perpustakaan</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Daftar Buku Perpustakaan</h1>
+    <div id="book-list"></div>
+
+    <script>
+        function fetchBooks() {
+            google.script.run.withSuccessHandler(displayBooks).getBooks();
+        }
+
+        function displayBooks(books) {
+            const bookList = document.getElementById('book-list');
+            bookList.innerHTML = '';
+
+            books.forEach(book => {
+                const bookItem = document.createElement('div');
+                bookItem.className = 'book-item';
+                bookItem.innerHTML = `
+                    <img src="${book.cover}" alt="Cover Buku" class="book-cover">
+                    <h2>${book.title}</h2>
+                    <p>Penerbit: ${book.publisher}</p>
+                    <p>Tahun Terbit: ${book.year}</p>
+                    <p>Status: ${book.status}</p>
+                `;
+                bookList.appendChild(bookItem);
+            });
+        }
+
+        window.onload = fetchBooks;
+    </script>
+</body>
+</html>
